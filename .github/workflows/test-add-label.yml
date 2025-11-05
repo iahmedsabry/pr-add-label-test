@@ -21,4 +21,4 @@ jobs:
             {"0":"XS","20":"S","50":"M","200":"L","800":"XL","2000":"XXL"}
           DEBUG_ACTION: "true"
         run: |
-          bash size-label-by-size.sh
+          bash size-label.sh
