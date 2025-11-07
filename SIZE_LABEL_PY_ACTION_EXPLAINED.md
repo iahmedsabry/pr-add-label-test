@@ -201,6 +201,26 @@ Notes on behavior and environment
 - The action implementation still expects `GITHUB_TOKEN` (and `GITHUB_EVENT_PATH`) to be available; these are provided by the workflow runner automatically when the job runs (the action's composite steps reference `secrets.GITHUB_TOKEN` and `github.event_path`). You don't need to set `GITHUB_TOKEN` via `env` in your workflow step.
 - Pass only the inputs the action declares (`input_sizes`, `ignored`, `debug_action`, `github_api_url`) in the `with:` block.
 
+Important: how to pass secrets and runner context to the action
+- Composite action manifests (action.yml) cannot include expressions that reference `secrets.*` or certain workflow contexts (like `github.event_path`) because the action manifest is validated before the workflow's secrets are available. If the manifest contains such expressions you'll get an error like "Unrecognized named-value: 'secrets'" when the runner tries to load the action.
+
+- The correct pattern is to have the calling workflow pass secrets and runner-provided values via the step's `env` when invoking the action. Example:
+
+```yaml
+- name: Run size label action (remote)
+  uses: iahmedsabry/pr-size-label@v1
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    GITHUB_EVENT_PATH: ${{ github.event_path }}
+  with:
+    input_sizes: '{"0":"XS","20":"S","50":"M","200":"L","800":"XL","2000":"XXL"}'
+    debug_action: 'true'
+```
+
+- In this setup:
+  - The workflow step maps `secrets.GITHUB_TOKEN` and `github.event_path` into environment variables for the action to read at runtime.
+  - The composite action's `action.yml` should *not* reference `secrets.*` or `github.*` directly. Instead it can reference `inputs.*` and use the environment variables at runtime inside its steps.
+
 What I changed in the repo
 - Updated `.github/workflows/test-add-label.yml` to use `uses: iahmedsabry/pr-size-label@v1`.
 - Updated this explanation file to document the updated workflow and explain the mapping.
