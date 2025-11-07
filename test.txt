@@ -1,2 +1,0 @@
-# test size label
-# test action.yml
