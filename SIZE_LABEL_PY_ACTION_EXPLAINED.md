@@ -179,6 +179,21 @@ If you'd like I can:
 - Create a GitHub Release from this tag and add release notes.
 
 
+
+---
+
+Creating and publishing `v1.2`
+
+I created and pushed an annotated tag `v1.2` for this repository and updated the test workflow to use it. Exact commands run:
+
+```bash
+git tag -a v1.2 -m "v1.2: minor fixes and workflow update"
+git push origin v1.2
+```
+
+You can reference the tag in workflows as `uses: iahmedsabry/pr-add-label-test@v1.2`.
+
+If you want me to also create a GitHub Release for `v1.2` or add a semver tag (for example `v1.2.0`), say which you'd prefer and I'll add that.
 ---
 
 Note about the `test-add-label.yml` workflow
