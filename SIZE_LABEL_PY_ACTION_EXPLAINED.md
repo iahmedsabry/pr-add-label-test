@@ -210,3 +210,39 @@ If you'd like, I can now:
 - Create semantic version tags (for example `v1.0.0`) and GitHub Releases for better versioning.
 
 Tell me which you'd prefer and I'll do it next.
+
+---
+
+Creating and publishing `v1.1` (what I did and best practices)
+
+I created an annotated git tag `v1.1` in this repository and pushed it to the remote `origin` so you can reference `uses: iahmedsabry/pr-add-label-test@v1.1` in workflows.
+
+Exact commands used (run in repository root):
+
+```bash
+git tag -a v1.1 -m "v1.1: minor updates and docs"
+git push origin v1.1
+```
+
+Notes about the remote message you may see
+- When pushing the tag, you may see a notice like:
+
+  "remote: This repository moved. Please use the new location: git@github.com:iahmedsabry/pr-size-label.git"
+
+  This is an informational message from the remote; it doesn't prevent the tag from being created on the remote. It indicates the repository was renamed or moved on GitHub. If you intend the canonical name to be different, consider updating workflows to reference the proper owner/repo name.
+
+Best practices (recap)
+- Prefer annotated tags for releases (`git tag -a v1.1 -m "..."`). They store the tagger, date, and message.
+- Consider semantic version tags (e.g., `v1.1.0`) for clearer versioning over time.
+- Create a GitHub Release from the tag with release notes for discoverability and changelogs.
+- Run CI (tests/lint) before tagging to ensure the tag points to a validated commit.
+
+Verification (what I checked)
+- Locally: `git tag --list` shows `v1.1`.
+- Remotely: `git ls-remote --tags origin` shows `refs/tags/v1.1` (or check on GitHub).
+
+If you'd like, I can:
+- Create a semantic release tag such as `v1.1.0` and push it as well, or
+- Draft a GitHub Release for `v1.1` with release notes.
+
+Tell me which you'd prefer and I'll do it next.
