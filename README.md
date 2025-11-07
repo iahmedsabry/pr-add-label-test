@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run size label action
-        uses: iahmedsabry/pr-size-label@v1.2
+        uses: iahmedsabry/pr-size-label@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_EVENT_PATH: ${{ github.event_path }}
